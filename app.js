@@ -11,8 +11,16 @@ MongoClient.connect(url, function(err, client) {
     db = client.db(dbName);
 });
 
+app.get('', (req, res) => {
+    res.redirect('/import');
+});
+
 app.get('/import', (req, res) => {
     res.status(200).json("import")
+});
+
+app.post('/import/file', (req, res) => {
+    res.redirect('/tableau')
 });
 
 app.get('/tableau/', (req, res) => {
@@ -20,7 +28,7 @@ app.get('/tableau/', (req, res) => {
 });
 
 app.get('/detail/', (req, res) => {
-    res.status(200).json("ok")
+    res.status(200).json("détail")
 });
 
 app.listen(8080);
