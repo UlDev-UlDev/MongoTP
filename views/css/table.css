@@ -1,0 +1,11 @@
+.f32 .flag {
+    vertical-align: middle;
+    margin: -8px 0;
+}
+
+tr{
+
+    height: 50px !important;
+    overflow: hidden !important;
+
+}
