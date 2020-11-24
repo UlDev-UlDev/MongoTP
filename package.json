@@ -17,7 +17,11 @@
   },
   "homepage": "https://github.com/UlDev-UlDev/MongoTP#readme",
   "dependencies": {
+    "csvtojson": "^2.0.10",
     "express": "^4.17.1",
-    "mongodb": "^3.6.3"
+    "express-fileupload": "^1.2.0",
+    "mongodb": "^3.6.3",
+    "mongoimport": "^1.0.6",
+    "randomstring": "^1.1.5"
   }
 }

@@ -1,9 +1,9 @@
 <html>
     Coucou !
-    <form action="" method="GET">
+    <form action="/import/file" method="POST" enctype="multipart/form-data">
         <label for="file">Sélectionnez le csv : </label><input name="file" id="file" type="file">
-        <button style="display: none" type="submit" id="submit">Valider</button>
+        <input style="display: none" type="submit" id="submit" value="OK"/>
     </form>
-    <script type="text/javascript" src="import.js"></script>
+    <script type="text/javascript" src="js/import.js"></script>
 </html>
 
