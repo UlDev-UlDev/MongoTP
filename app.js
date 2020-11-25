@@ -51,7 +51,7 @@ app.get('/import/:id', (req, res) => {
     res.sendFile(__dirname + '/views/table.html');
 });
 
-app.get('/api/:id/:page_num', (req, res) => {
+app.get('/api/:id/', (req, res) => {
     let id = req.params.id;
     let page_num = req.params.page_num;
     let limit = 10;
@@ -72,7 +72,7 @@ app.get('/api/:id/:page_num', (req, res) => {
 });
 
 app.get('/import/:id/:id_detail', (req, res) => {
-    res.status(200).json("détail");
+    res.status(200).sendFile(__dirname + '/views/detail.html');
 });
 
 app.get('/api/:id/:id_detail', (req, res) => {

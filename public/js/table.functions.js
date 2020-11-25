@@ -1,5 +1,5 @@
 //Url de la page détails
-let urlPageDetails = "";
+let urlPageDetails = window.location.pathname;
 
 
 //Navigation page détails

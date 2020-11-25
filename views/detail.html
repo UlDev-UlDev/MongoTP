@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Détail</title>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+
+
+        <div class="col-12">
+            <table id="table" class="table table-bordered">
+                <thead class="text-center thead-dark">
+                <tr>
+                    <th>Field</th>
+                    <th>Valeur</th>
+                    <th>Editer</th>
+                    <th>Supprimer</th>
+                </tr>
+                </thead>
+                <tbody class="text-center text-light bg-secondary" id="table-content"></tbody>
+            </table>
+        </div>
+    </div>
+
+
+</div>
+<script src="/js/jquery.js"></script>
+<script>
+    $.ajax({
+        url: window.location.pathname.replace('import', 'api'), // La ressource ciblée
+        success: (data, status) => {
+            Object.keys(data[0]).forEach((key) => {
+                console.log(`${key}`);
+                let row = '<tr>' +
+                    "<td>"+key+"</td>" +
+                    '<td><textarea type="textarea">' + data[0][key] + '</textarea></td>' +
+                    "<td><button class='update'>editer</button></td>" +
+                    "<td><button class='delete'>supprimer</button></td>" +
+                    '</tr>';
+                $('#table-content').append(row);
+            });
+        }
+    });
+</script>
+</body>
+</html>
