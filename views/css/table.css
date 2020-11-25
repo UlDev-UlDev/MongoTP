@@ -3,9 +3,7 @@
     margin: -8px 0;
 }
 
-tr{
-
-    height: 50px !important;
-    overflow: hidden !important;
-
+tr:hover{
+    background: darkgrey;
+    cursor: pointer;
 }
