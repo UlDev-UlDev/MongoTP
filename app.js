@@ -51,11 +51,12 @@ app.get('/import/:id', (req, res) => {
     res.sendFile(__dirname + '/views/table.html');
 });
 
-app.get('/api/:id', (req, res) => {
+app.get('/api/:id/:page_num', (req, res) => {
     let id = req.params.id;
+    let page_num = req.params.page_num;
     let limit = 10;
     let skips = limit * (page_num - 1);
-    db.collection(id).find({}).sort({}).skip(skips).limit(limit).toArray((err, docs) => {
+    db.collection(id).find({}).limit(limit).toArray((err, docs) => {
         if (err) {
             console.log(err);
             throw err
