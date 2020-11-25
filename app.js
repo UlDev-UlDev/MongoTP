@@ -19,7 +19,6 @@ MongoClient.connect(url, function(err, client) {
 app.use(express.static('public'));
 app.use(fileUpload({
     useTempFiles: true,
-    debug: true
 }));
 
 app.get('/', (req, res) => {
@@ -43,25 +42,48 @@ app.post('/import/file',(req, res) => {
                 host: 'brice-bitot.fr:27017',
             };
             mi(config);
-            res.redirect('/tableau/' + id);
+            res.redirect('/' + id);
         })
 });
 
-app.get('/tableau/:id', (req, res) => {
+app.get('/import/:id', (req, res) => {
     let id = req.params.id;
-    db.collection(id).find({}).toArray((err, docs) => {
+    res.sendFile();
+});
+
+app.get('/api/:id', (req, res) => {
+    let id = req.params.id;
+    let limit = 10;
+    let skips = limit * (page_num - 1);
+    db.collection(id).find({}).sort({}).skip(skips).limit(limit).toArray((err, docs) => {
+        if (err) {
+            console.log(err);
+            throw err
+        }
+        db.collection(id).countDocuments({}, (err, count) => {
+            res.status(200).json({
+                "totalPage": count / limit,
+                "pageNumber": page_num,
+                "data": docs
+            })
+        })
+    });
+});
+
+app.get('/import/:id/:id_detail', (req, res) => {
+    res.status(200).json("détail");
+});
+
+app.get('/api/:id/:id_detail', (req, res) => {
+    let id = req.params.id;
+    let id_detail = req.params.id_detail;
+    db.collection(id).find({"id": id_detail}).toArray((err, docs) => {
         if (err) {
             console.log(err)
             throw err
         }
         res.send(docs);
     });
-});
-
-app.get('tableau/:id/detail/:id_detail', (req, res) => {
-    let id = req.params.id;
-    let id_detail = req.params.id_detail;
-    res.status(200).json("détail");
 });
 
 app.listen(8080);
