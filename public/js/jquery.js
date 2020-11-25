@@ -2,7 +2,7 @@
  * jQuery JavaScript Library v3.5.1
  * https://jquery.com/
  *
- * Includes Sizzle.js
+ * Includes Sizzle.bootstrap_js
  * https://sizzlejs.com/
  *
  * Copyright JS Foundation and other contributors
@@ -20,7 +20,7 @@
         // For CommonJS and CommonJS-like environments where a proper `window`
         // is present, execute the factory and get jQuery.
         // For environments that do not have a `window` with a `document`
-        // (such as Node.js), expose a factory as module.exports.
+        // (such as Node.bootstrap_js), expose a factory as module.exports.
         // This accentuates the need for the creation of a real `window`.
         // e.g. var jQuery = require("jquery")(window);
         // See ticket #14549 for more info.
@@ -4209,7 +4209,7 @@
         return letter.toUpperCase();
     }
 
-// Convert dashed to camelCase; used by the css and data modules
+// Convert dashed to camelCase; used by the bootstrap_css and data modules
 // Support: IE <=9 - 11, Edge 12 - 15
 // Microsoft forgot to hump their vendor prefix (#9572)
     function camelCase( string ) {
@@ -4759,7 +4759,7 @@
             // Halve the iteration target value to prevent interference from CSS upper bounds (gh-2144)
             initial = initial / 2;
 
-            // Trust units reported by jQuery.css
+            // Trust units reported by jQuery.bootstrap_css
             unit = unit || initialInUnit[ 3 ];
 
             // Iteratively approximate from a nonzero starting point
@@ -6580,8 +6580,8 @@
         computed = computed || getStyles( elem );
 
         // getPropertyValue is needed for:
-        //   .css('filter') (IE 9 only, #12537)
-        //   .css('--customProperty) (#3144)
+        //   .bootstrap_css('filter') (IE 9 only, #12537)
+        //   .bootstrap_css('--customProperty) (#3144)
         if ( computed ) {
             ret = computed.getPropertyValue( name ) || computed[ name ];
 
@@ -7206,7 +7206,7 @@
                     return tween.elem[ tween.prop ];
                 }
 
-                // Passing an empty string as a 3rd parameter to .css will automatically
+                // Passing an empty string as a 3rd parameter to .bootstrap_css will automatically
                 // attempt a parseFloat and fallback to a string if the parse fails.
                 // Simple values such as "10px" are parsed to Float;
                 // complex values such as "rotate(1rad)" are returned as-is.
@@ -9011,7 +9011,7 @@
         rprotocol = /^\/\//,
 
         /* Prefilters
-	 * 1) They are useful to introduce custom dataTypes (see ajax/jsonp.js for an example)
+	 * 1) They are useful to introduce custom dataTypes (see ajax/jsonp.bootstrap_js for an example)
 	 * 2) These are called:
 	 *    - BEFORE asking for a transport
 	 *    - AFTER param serialization (s.data is a string if s.processData is true)
@@ -10621,7 +10621,7 @@
 // Webkit bug: https://bugs.webkit.org/show_bug.cgi?id=29084
 // Blink bug: https://bugs.chromium.org/p/chromium/issues/detail?id=589347
 // getComputedStyle returns percent when specified for top/left/bottom/right;
-// rather than make the css module depend on the offset module, just check for it here
+// rather than make the bootstrap_css module depend on the offset module, just check for it here
     jQuery.each( [ "top", "left" ], function( _i, prop ) {
         jQuery.cssHooks[ prop ] = addGetHookIf( support.pixelPosition,
             function( elem, computed ) {
