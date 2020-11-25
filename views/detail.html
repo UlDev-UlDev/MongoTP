@@ -34,10 +34,9 @@
         url: window.location.pathname.replace('import', 'api'), // La ressource ciblée
         success: (data, status) => {
             Object.keys(data[0]).forEach((key) => {
-                console.log(`${key}`);
                 let row = '<tr>' +
-                    "<td>"+key+"</td>" +
-                    '<td><textarea type="textarea">' + data[0][key] + '</textarea></td>' +
+                    "<td>" + key + "</td>" +
+                    '<td><textarea type="textarea" id="key">' + data[0][key] + '</textarea></td>' +
                     "<td><button class='update'>editer</button></td>" +
                     '</tr>';
                 $('#table-content').append(row);

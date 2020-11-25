@@ -12,7 +12,7 @@ $(document).ready(function () {
             $(this).addClass('selected');
         }
 
-        document.location.href = urlPageDetails + "/" + table.row(this).id();
+        document.location.href = urlPageDetails + table.row(this).id();
     });
 
 });
