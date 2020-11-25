@@ -1,5 +1,5 @@
 //Url de la page détails
-let urlPageDetails = window.location.pathname;
+let urlPageDetails =  window.location.pathname;
 
 
 //Navigation page détails
@@ -12,7 +12,7 @@ $(document).ready(function () {
             $(this).addClass('selected');
         }
 
-        document.location.href = urlPageDetails + table.row(this).id();
+        document.location.href = urlPageDetails + "/" + table.row(this).id();
     });
 
 });
