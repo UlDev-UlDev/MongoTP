@@ -48,7 +48,7 @@ app.post('/import/file',(req, res) => {
 
 app.get('/import/:id', (req, res) => {
     let id = req.params.id;
-    res.sendFile();
+    res.sendFile(__dirname + '/views/index.html');
 });
 
 app.get('/api/:id', (req, res) => {
