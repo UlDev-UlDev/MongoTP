@@ -59,14 +59,14 @@ app.get('/api/:id/:page_num', (req, res) => {
     db.collection(id).find({}).limit(limit).toArray((err, docs) => {
         if (err) {
             console.log(err);
-            throw err
+            throw err;
         }
         db.collection(id).countDocuments({}, (err, count) => {
             res.status(200).json({
                 "totalPage": count / limit,
                 "pageNumber": page_num,
                 "data": docs
-            })
+            });
         })
     });
 });
@@ -80,11 +80,26 @@ app.get('/api/:id/:id_detail', (req, res) => {
     let id_detail = req.params.id_detail;
     db.collection(id).find({"id": id_detail}).toArray((err, docs) => {
         if (err) {
-            console.log(err)
-            throw err
+            console.log(err);
+            throw err;
         }
         res.send(docs);
     });
+});
+
+app.get('/api/:id/:id_detail/update', (req, res) => {
+    let id = req.params.id;
+    let id_detail = req.params.id_detail;
+    let dataToUpdate = req.params.dataToUpdate;
+    db.collection(id).updateOne({"id": id_detail}, {$set: dataToUpdate});
+    res.send(200);
+});
+
+app.get('/api/:id/:id_detail/delete', (req, res) => {
+    let id = req.params.id;
+    let id_detail = req.params.id_detail;
+    db.collection(id).deleteOne({"id": id_detail});
+    res.redirect('/import/' + id);
 });
 
 app.listen(8080);
