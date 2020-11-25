@@ -29,6 +29,19 @@
 </div>
 <script src="/js/jquery.js"></script>
 <script>
+    function update(key) {
+        console.log(key, $('#' + key).val());
+        let dataR = JSON.parse('{"' + key + '": "' + $('#' + key).val() + '"}');
+        console.log(dataR);
+        $.ajax({
+            type: "POST",
+            url: window.location.pathname.replace('import', 'api') + '/update',
+            data: {
+                dataToUpdate: dataR
+            }
+        })
+    }
+
     let index = 0;
     $.ajax({
         url: window.location.pathname.replace('import', 'api'), // La ressource ciblée
@@ -36,11 +49,11 @@
             Object.keys(data[0]).forEach((key) => {
                 let row = '<tr>' +
                     "<td>" + key + "</td>" +
-                    '<td><textarea type="textarea" id="key">' + data[0][key] + '</textarea></td>' +
-                    "<td><button class='update'>editer</button></td>" +
+                    '<td><textarea id="' + key + '">' + data[0][key] + '</textarea></td>' +
+                    `<td><button class='update' onclick='update("` + key + `")'>editer</button></td>` +
                     '</tr>';
                 $('#table-content').append(row);
-                if(index == 1 ){
+                if (index == 1) {
                     $(".toolbar")
                         .append("" +
                             "<button onclick='supprimer(" + data[0][key] + ")' class='btn-block col-6 mx-auto my-3 btn btn-outline-danger'>Supprimer</button>"

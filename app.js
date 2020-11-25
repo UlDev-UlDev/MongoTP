@@ -4,7 +4,7 @@ const MongoClient = require('mongodb').MongoClient;
 const mi = require('mongoimport');
 const fileUpload = require('express-fileupload');
 const csv=require("csvtojson");
-const url2 = require("url");
+const bodyParser = require('body-parser');
 const app = express();
 const url = 'mongodb://brice-bitot.fr:27017';
 const dbName = 'import';
@@ -16,6 +16,7 @@ MongoClient.connect(url, function(err, client) {
     db = client.db(dbName);
 });
 
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use(fileUpload({
     useTempFiles: true,
@@ -87,10 +88,11 @@ app.get('/api/:id/:id_detail', (req, res) => {
     });
 });
 
-app.get('/api/:id/:id_detail/update', (req, res) => {
+app.post('/api/:id/:id_detail/update', (req, res) => {
     let id = req.params.id;
     let id_detail = req.params.id_detail;
-    let dataToUpdate = req.params.dataToUpdate;
+    let dataToUpdate = req.body.dataToUpdate;
+    console.log(dataToUpdate);
     db.collection(id).updateOne({"id": id_detail}, {$set: dataToUpdate});
     res.send(200);
 });
