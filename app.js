@@ -95,7 +95,7 @@ app.get('/api/:id/:id_detail/update', (req, res) => {
     res.send(200);
 });
 
-app.get('/api/:id/:id_detail/delete', (req, res) => {
+app.post('/api/:id/:id_detail/delete', (req, res) => {
     let id = req.params.id;
     let id_detail = req.params.id_detail;
     db.collection(id).deleteOne({"id": id_detail});
