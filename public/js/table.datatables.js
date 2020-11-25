@@ -5,12 +5,17 @@ $(()=> {
 
 
     table = $("#table").DataTable({
-        ajax: "/api/" + importId + "/1",
+        ajax: "/api/" + importId,
         language: {
             url: "http://cdn.datatables.net/plug-ins/1.10.21/i18n/French.json"
         },
+        processing: true,
+        serverSide: true,
+        bDeferLoading: 10,
+        totalPage: 10,
         rowId: "id",
         columns: [
+            {data:"last_review"},
             {data: "name"},
             {
                 data: "description",
