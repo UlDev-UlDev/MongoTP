@@ -4,7 +4,7 @@ const MongoClient = require('mongodb').MongoClient;
 const mi = require('mongoimport');
 const fileUpload = require('express-fileupload');
 const csv=require("csvtojson");
-
+const url2 = require("url");
 const app = express();
 const url = 'mongodb://brice-bitot.fr:27017';
 const dbName = 'import';
@@ -51,12 +51,12 @@ app.get('/import/:id', (req, res) => {
     res.sendFile(__dirname + '/views/table.html');
 });
 
-app.get('/api/:id/', (req, res) => {
+app.get('/api/:id', (req, res) => {
     let id = req.params.id;
-    let page_num = req.params.page_num;
+    let page_num = req.query.draw;
     let limit = 10;
     let skips = limit * (page_num - 1);
-    db.collection(id).find({}).limit(limit).toArray((err, docs) => {
+    db.collection(id).find({}).skip(skips).limit(limit).toArray((err, docs) => {
         if (err) {
             console.log(err);
             throw err;
