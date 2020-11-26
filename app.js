@@ -26,9 +26,16 @@ MongoClient.connect(url, function (err, client) {
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('public'));
+app.use(express.static('Images'));
+
 app.use(fileUpload({
     useTempFiles: true,
 }));
+
+app.get('/image/:name', (req, res) => {
+    let name = req.params.name;
+    res.sendFile(__dirname + '/views/Image.html');
+});
 
 app.get('/', (req, res) => {
     res.redirect('/import');
@@ -40,6 +47,10 @@ app.get('/import/', (req, res) => {
 
 app.get('/upload/', (req, res) => {
     res.sendFile(__dirname + '/views/upload.html');
+});
+
+app.get('/historique/', (req, res) => {
+    res.sendFile(__dirname + '/views/historique.html');
 });
 
 app.post('/import/file', (req, res) => {
@@ -86,6 +97,18 @@ app.get('/api/:id', (req, res) => {
 
 app.get('/import/:id/:id_detail', (req, res) => {
     res.status(200).sendFile(__dirname + '/views/detail.html');
+});
+
+app.get('/tensorflow/historique', (req,res)=> {
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("tensorflow");
+        dbo.collection("historique").find({}).toArray(function(err, result) {
+            if (err) throw err;
+            res.end(JSON.stringify(result));
+            db.close();
+        });
+    });
 });
 
 app.get('/api/:id/:id_detail', (req, res) => {
@@ -152,7 +175,9 @@ app.post("/tensorflow/saveImageInfo", (req,res) => {
             name: req.body.name,
             size: req.body.size,
             filePath: req.body.filePath,
-            date: req.body.date
+            date: req.body.date,
+            rate: req.body.rate,
+            type: req.body.type,
         };
         dbo.collection("historique").insertOne(imageInfo, function(err, res) {
             if (err) throw err;

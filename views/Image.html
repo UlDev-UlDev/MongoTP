@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Image</title>
+</head>
+<body>
+<div style="height: 100vh; width: 100vw; display: flex; justify-content: center; align-content: center;">
+    <img id="img" height="900" src="">
+</div>
+
+<script>
+    let imgName = window.location.pathname.split('/')[2];
+
+    document.getElementById('img').setAttribute('src',"/" + imgName);
+</script>
+</body>
+</html>

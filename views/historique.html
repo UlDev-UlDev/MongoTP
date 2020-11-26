@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/upload.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Tensorflow image</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item ">
+                <a class="nav-link" href="/upload">Reconnaissance d'image</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/historique">Historique</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-12">
+            <table class="table table-bordered">
+                <thead class="text-center thead-dark">
+                <tr>
+                    <th>Date d'ajout</th>
+                    <th>Nom de l'image</th>
+                    <th>Taille</th>
+                    <th>Type reconnu</th>
+                    <th>Confiance</th>
+                    <th>Consulter l'image</th>
+                </tr>
+                </thead>
+                <tbody class="text-center bg-secondary text-light" id="data-content"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="https://kit.fontawesome.com/37f1613248.js" crossorigin="anonymous"></script>
+<script>
+    function getHistory() {
+        $.get({
+            url: '/tensorflow/historique',
+            success: data => {
+                let result = JSON.parse(data);
+                for (let i = 0; i < result.length; i++) {
+                    $("#data-content").append(
+                        "<tr>" +
+                        "<td>" + result[i].date + "</td>" +
+                        "<td>" + result[i].name + "</td>" +
+                        "<td>" + result[i].size + "</td>" +
+                        "<td>" + result[i].type + "</td>" +
+                        "<td>" + result[i].rate + "</td>" +
+                        "<td>" +
+                            "<button class='btn' data-img-name='" + result[i].name + "' onclick='showImage(this)'>" +
+                                "<i style='font-size: 1.5em;' class='far fa-image'></i>" +
+                            "</button><" +
+                        "/td>" +
+                        "</tr>");
+                }
+
+            }
+        });
+    }
+
+    function showImage(elem) {
+        window.location.href = "/image/" + $(elem).attr("data-img-name");
+    }
+
+    $(() => {
+        getHistory();
+    });
+</script>
+</body>
+</html>
