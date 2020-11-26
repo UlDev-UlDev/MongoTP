@@ -75,19 +75,7 @@
                 <div class="card-header">
                     Résultat
                 </div>
-                <div class="card-body ">
-                    <div class="form-group">
-                        <label for="name">Nom de l'image :</label>
-                        <input class="form-control" type="text" name="name" id="name">
-                    </div>
-                    <div class="form-group">
-                        <label for="size">Taille de l'image :</label>
-                        <input readonly class="form-control" type="text" name="size" id="size">
-                    </div>
-                    <input class="form-control" type="hidden" name="date" id="date">
-                    <div style="display: flex; justify-content: center">
-                        <img class="mx-auto" id="myimage">
-                    </div>
+                <div class="card-body img-result-content">
                 </div>
             </div>
 
@@ -173,7 +161,7 @@
             }
         }
 
-        $(".img-result").html(imageResult);
+        $(".img-result-content").html(imageResult);
         $(".img-result").show();
         //$("#spinner").hide();
     }
