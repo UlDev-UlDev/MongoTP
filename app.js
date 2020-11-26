@@ -30,6 +30,10 @@ app.get('/import/', (req, res) => {
     res.sendFile(__dirname + '/views/index.html');
 });
 
+app.get('/upload/', (req, res) => {
+    res.sendFile(__dirname + '/views/upload.html');
+});
+
 app.post('/import/file',(req, res) => {
     let id = randomstring.generate(16);
     console.log(req.files.file.tempFilePath);

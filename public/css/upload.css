@@ -1,0 +1,14 @@
+.upload-card{
+    display: flex;
+    flex-direction: column;
+}
+.upload-card > .img-container >button{
+    margin-top: 20px;
+    width: 70px;
+    height: 60px !important;
+}
+.img-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
