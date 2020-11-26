@@ -143,15 +143,15 @@
 
 
         init().then(async () => {
-            let predict = await predict();
+            predict();
             saveImgToDb(image, predict);
             $(".img-info").show();
             $("#spinner").hide();
         })
     }
 
-<<<<<<< HEAD
     function writeImageResult(result) {
+        console.log("ttt");
         let probability = 0;
         let category = "";
         let higherProbability = 0;
@@ -178,10 +178,7 @@
         //$("#spinner").hide();
     }
 
-    function saveImgToDb(image) {
-=======
     function saveImgToDb(image, predict) {
->>>>>>> origin/main
         let formData = new FormData();
         formData.append('file', $("#imgToUpload")[0].files[0]);
         formData.append('name', $("#name").val());
