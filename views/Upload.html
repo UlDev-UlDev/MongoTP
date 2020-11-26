@@ -9,6 +9,7 @@
 <body>
 <div class="container-fluid">
     <div class="row mt-5">
+        <div class="col-2"></div>
         <div class="col-4">
             <div class="card">
                 <div class="card-header">
@@ -19,38 +20,76 @@
                     <input onchange="onFileSelected(event)" id="imgToUpload" type="file" style="display: none">
                     <div class="img-container">
                         <button onclick="openUpload()" class="btn btn-outline-primary">
-                            <i  class="fa fa-upload"></i><br>
+                            <i class="fa fa-upload"></i><br>
                             <label style="font-size: 0.8em; cursor: pointer; font-weight: bold" for="">Upload</label>
                         </button>
-                        <img id="myimage" >
+
                     </div>
 
                 </div>
             </div>
+
+        </div>
+        <div class="col-6">
+            <div class="card img-info" style="display: none">
+                <div class="card-header">
+                    Informations de l'image
+                </div>
+                <div class="card-body ">
+                    <div class="form-group">
+                        <label for="name">Nom de l'image :</label>
+                        <input class="form-control" type="text" name="name" id="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="size">Taille de l'image :</label>
+                        <input readonly class="form-control" type="text" name="size" id="size">
+                    </div>
+                    <input class="form-control" type="hidden" name="date" id="date">
+                    <div style="display: flex; justify-content: center">
+                        <img class="mx-auto" id="myimage">
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
+</div>
 </div>
 <script src="js/jquery.js"></script>
 <script src="js/bootstrap.js"></script>
 <script src="https://kit.fontawesome.com/37f1613248.js" crossorigin="anonymous"></script>
 <script>
-function openUpload() {
-    $("#imgToUpload").trigger('click');
-}
+    function openUpload() {
+        $("#imgToUpload").trigger('click');
+    }
 
-function onFileSelected(event) {
-    var selectedFile = event.target.files[0];
-    var reader = new FileReader();
+    function onFileSelected(event) {
+        const imgtag = document.getElementById("myimage");
+        const selectedFile = event.target.files[0];
+        let reader = new FileReader();
 
-    var imgtag = document.getElementById("myimage");
-    imgtag.title = selectedFile.name;
 
-    reader.onload = function(event) {
-        imgtag.src = event.target.result;
-    };
-    $(imgtag).css("height","200px");
-    reader.readAsDataURL(selectedFile);
-}
+        imgtag.title = selectedFile.name;
+
+        reader.onload = function (event) {
+            imgtag.src = event.target.result;
+        };
+        $(imgtag).css("height", "200px");
+        reader.readAsDataURL(selectedFile);
+
+        writeImageInfo(selectedFile);
+    }
+
+    function writeImageInfo(image) {
+        const dateToday = new Date();
+        const today = dateToday.toISOString().slice(0,10);
+
+        $("#name").val(image.name);
+        $("#size").val(Math.round(image.size /1024,0) + " ko");
+        $("#date").val(today);
+
+        $(".img-info").show();
+    }
 </script>
 </body>
 </html>
