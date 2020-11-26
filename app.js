@@ -3,20 +3,28 @@ const randomstring = require("randomstring");
 const MongoClient = require('mongodb').MongoClient;
 const mi = require('mongoimport');
 const fileUpload = require('express-fileupload');
-const csv=require("csvtojson");
+const csv = require("csvtojson");
 const bodyParser = require('body-parser');
 const app = express();
 const url = 'mongodb://brice-bitot.fr:27017';
 const dbName = 'import';
+const multer = require("multer");
+const path = require("path")
+const fs = require('fs');
+
+const upload = multer({
+    dest: "/Images"
+    // you might also want to set some limits: https://github.com/expressjs/multer#limits
+});
 
 let db;
 
-MongoClient.connect(url, function(err, client) {
+MongoClient.connect(url, function (err, client) {
     console.log("Connected successfully to server");
     db = client.db(dbName);
 });
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('public'));
 app.use(fileUpload({
     useTempFiles: true,
@@ -34,12 +42,12 @@ app.get('/upload/', (req, res) => {
     res.sendFile(__dirname + '/views/upload.html');
 });
 
-app.post('/import/file',(req, res) => {
+app.post('/import/file', (req, res) => {
     let id = randomstring.generate(16);
     console.log(req.files.file.tempFilePath);
     csv()
         .fromFile(req.files.file.tempFilePath)
-        .then((data)=>{
+        .then((data) => {
             let config = {
                 fields: data,                     // {array} data to import
                 db: 'import',                     // {string} name of db
@@ -106,6 +114,52 @@ app.post('/api/:id/:id_detail/delete', (req, res) => {
     let id_detail = req.params.id_detail;
     db.collection(id).deleteOne({"id": id_detail});
     res.redirect('/import/' + id);
+});
+
+app.post(
+    "/tensorflow/saveImage",
+    upload.single("file"), (req, res) => {
+        console.log(req.files.file)
+        const tempPath = req.files.file.tempFilePath;
+        const targetPath = path.join(__dirname, "./Images/" + req.files.file.name);
+
+        if (path.extname(req.files.file.name).toLowerCase() === ".png" || path.extname(req.files.file.name).toLowerCase() === ".jpg") {
+            fs.rename(tempPath, targetPath, err => {
+                if (err) throw err;
+
+                res
+                    .status(200)
+                    .contentType("text/plain")
+                    .end("File uploaded!");
+            });
+        } else {
+            fs.unlink(tempPath, err => {
+                if (err) throw err;
+
+                res
+                    .status(403)
+                    .contentType("text/plain")
+                    .end("Only .png files are allowed!");
+            });
+        }
+    });
+
+app.post("/tensorflow/saveImageInfo", (req,res) => {
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("tensorflow");
+        var imageInfo = {
+            name: req.body.name,
+            size: req.body.size,
+            filePath: req.body.filePath,
+            date: req.body.date
+        };
+        dbo.collection("historique").insertOne(imageInfo, function(err, res) {
+            if (err) throw err;
+            console.log("1 document inserted");
+            db.close();
+        });
+    });
 });
 
 app.listen(8080);

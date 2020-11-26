@@ -82,13 +82,42 @@
 
     function writeImageInfo(image) {
         const dateToday = new Date();
-        const today = dateToday.toISOString().slice(0,10);
+        const today = dateToday.toISOString().slice(0, 10);
 
         $("#name").val(image.name);
-        $("#size").val(Math.round(image.size /1024,0) + " ko");
+        $("#size").val(Math.round(image.size / 1024, 0) + " ko");
         $("#date").val(today);
 
         $(".img-info").show();
+        saveImgToDb(image)
+    }
+
+    function saveImgToDb(image) {
+        let formData = new FormData();
+        formData.append('file', $("#imgToUpload")[0].files[0]);
+        formData.append('name', $("#name").val());
+        formData.append('size', $("#size").val());
+        formData.append('date', $("#date").val());
+
+        $.post({
+            url: "/tensorflow/saveImage",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: () => {
+                alert("Image sauvegardée dans la database");
+            }
+        });
+
+        $.post({
+            url: "/tensorflow/saveImageInfo",
+            data: {
+                name: $("#name").val(),
+                size: $("#size").val(),
+                date: $("#date").val(),
+                filePath: "/Images/" + image.name
+            }
+        })
     }
 </script>
 </body>
