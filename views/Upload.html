@@ -104,6 +104,8 @@
     }
 
     function onFileSelected(event) {
+        $("#spinner").removeAttr("style");
+        $("#spinner").show();
         const imgtag = document.getElementById("myimage");
         const selectedFile = event.target.files[0];
         let reader = new FileReader();
@@ -133,7 +135,6 @@
             predict();
             saveImgToDb(image, predict);
             $(".img-info").show();
-            $("#spinner").hide();
         })
     }
 
@@ -161,7 +162,11 @@
         }
 
         $(".img-result-content").html(imageResult);
-        $(".img-result").show();
+
+        setTimeout(() => {
+            $(".img-result").show();
+            $("#spinner").hide();
+        }, 1000);
         //$("#spinner").hide();
     }
 
