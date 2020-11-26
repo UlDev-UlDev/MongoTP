@@ -132,8 +132,8 @@
 
 
         init().then(async () => {
-            predict();
-            saveImgToDb(image, predict);
+            let prediction = await predict();
+            saveImgToDb(image, prediction);
             $(".img-info").show();
         })
     }
@@ -152,12 +152,12 @@
                 higherProbability = probability;
             }
         }
-        let imageResult = "Ceci est de la catégorie " + higherCategory + " a " + (higherProbability*100) + "%";
+        let imageResult = "Ceci est de la catégorie " + higherCategory + " a " + (higherProbability*100).toFixed(2) + "%";
         for(let i = 0; i < 6; i++){
             category = result[i]["className"];
             probability = result[i]["probability"];
             if(probability > 0.35 && category != higherCategory){
-                imageResult = imageResult + "<br> ou " + category + " a " + (probability*100) + "%"
+                imageResult = imageResult + "<br> ou " + category + " a " + (probability.toFixed(2) * 100) + "%"
             }
         }
 
@@ -179,7 +179,7 @@
 
         let prediction_to_save = {
             probability: 0,
-            className: "no prediction"
+            className: "don't know"
         };
         for (let i = 0; i < predict.length; i++) {
             if(predict[i].probability >= prediction_to_save.probability){
@@ -196,7 +196,8 @@
                 alert("Image sauvegardée dans la database");
             }
         });
-
+        console.log(prediction_to_save);
+        console.log(predict);
         $.post({
             url: "/tensorflow/saveImageInfo",
             data: {
@@ -205,7 +206,7 @@
                 date: $("#date").val(),
                 type: prediction_to_save.className,
                 rate: prediction_to_save.probability.toFixed(2),
-                filePath: "/Images/" + image.name
+                filePath: "/uploaded_images/" + image.name
             }
         })
     }

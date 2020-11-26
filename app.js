@@ -31,7 +31,7 @@ app.use(fileUpload({
     useTempFiles: true,
 }));
 
-app.get('/image/:name', (req, res) => {
+app.get('/uploaded_images/:name', (req, res) => {
     let name = req.params.name;
     res.sendFile(__dirname + '/views/Image.html');
 });
@@ -59,9 +59,9 @@ app.get('/tensorflow/historique', (req,res)=> {
 app.post(
     "/tensorflow/saveImage",
     upload.single("file"), (req, res) => {
-        console.log(req.files.file)
         const tempPath = req.files.file.tempFilePath;
-        const targetPath = path.join(__dirname, "./Images/" + req.files.file.name);
+        const file_name = req.files.file.name;
+        const targetPath = path.join(__dirname, "./public/uploaded_images/" + randomstring.generate(16) + file_name);
 
         if (path.extname(req.files.file.name).toLowerCase() === ".png" || path.extname(req.files.file.name).toLowerCase() === ".jpg") {
             fs.rename(tempPath, targetPath, err => {
