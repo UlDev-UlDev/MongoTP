@@ -27,6 +27,7 @@ MongoClient.connect(url, function (err, client) {
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('public'));
 app.use(express.static('Images'));
+app.use(express.static('my_model'));
 
 app.use(fileUpload({
     useTempFiles: true,
