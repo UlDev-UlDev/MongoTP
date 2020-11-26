@@ -2,7 +2,7 @@
 // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/image
 
 // the link to your model provided by Teachable Machine export panel
-const URL = '/';
+const URL = '/my_model/';
 
 let model, labelContainer, maxPredictions;
 
@@ -27,4 +27,5 @@ async function predict() {
         const classPrediction =
             prediction[i].className + ': ' + prediction[i].probability.toFixed(2);
     }
+    return prediction;
 }

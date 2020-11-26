@@ -120,20 +120,30 @@
         $("#date").val(today);
 
 
-        init().then(() => {
-            predict();
-            saveImgToDb(image);
+        init().then(async () => {
+            let predict = await predict();
+            saveImgToDb(image, predict);
             $(".img-info").show();
             $("#spinner").hide();
         })
     }
 
-    function saveImgToDb(image) {
+    function saveImgToDb(image, predict) {
         let formData = new FormData();
         formData.append('file', $("#imgToUpload")[0].files[0]);
         formData.append('name', $("#name").val());
         formData.append('size', $("#size").val());
         formData.append('date', $("#date").val());
+
+        let prediction_to_save = {
+            probability: 0,
+            className: "no prediction"
+        };
+        for (let i = 0; i < predict.length; i++) {
+            if(predict[i].probability >= prediction_to_save.probability){
+                prediction_to_save = predict[i];
+            }
+        }
 
         $.post({
             url: "/tensorflow/saveImage",
@@ -151,8 +161,8 @@
                 name: $("#name").val(),
                 size: $("#size").val(),
                 date: $("#date").val(),
-                type: "inconnu",
-                rate: 0,
+                type: prediction_to_save.className,
+                rate: prediction_to_save.probability.toFixed(2),
                 filePath: "/Images/" + image.name
             }
         })
