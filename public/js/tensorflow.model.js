@@ -27,4 +27,5 @@ async function predict() {
         const classPrediction =
             prediction[i].className + ': ' + prediction[i].probability.toFixed(2);
     }
+    writeImageResult(prediction);
 }
