@@ -48,7 +48,7 @@ app.get('/tensorflow/historique', (req,res)=> {
     MongoClient.connect(url, function(err, db) {
         if (err) throw err;
         var dbo = db.db("tensorflow");
-        dbo.collection("historique").find({}).toArray(function(err, result) {
+        dbo.collection("historique").find({}).sort({date: -1}).toArray(function(err, result) {
             if (err) throw err;
             res.end(JSON.stringify(result));
             db.close();

@@ -124,7 +124,7 @@
 
     function writeImageInfo(image) {
         const dateToday = new Date();
-        const today = dateToday.toISOString().slice(0, 10);
+        const today = dateToday.toISOString();
 
         $("#name").val(image.name);
         $("#size").val(Math.round(image.size / 1024, 0) + " ko");
@@ -192,12 +192,7 @@
             data: formData,
             processData: false,
             contentType: false,
-            success: () => {
-                alert("Image sauvegardée dans la database");
-            }
         });
-        console.log(prediction_to_save);
-        console.log(predict);
         $.post({
             url: "/tensorflow/saveImageInfo",
             data: {
