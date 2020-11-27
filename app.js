@@ -1,5 +1,6 @@
 const express = require('express');
 const randomstring = require("randomstring");
+const mongodb = require('mongodb')
 const MongoClient = require('mongodb').MongoClient;
 const mi = require('mongoimport');
 const fileUpload = require('express-fileupload');
@@ -51,6 +52,21 @@ app.get('/tensorflow/historique', (req,res)=> {
         dbo.collection("historique").find({}).toArray(function(err, result) {
             if (err) throw err;
             res.end(JSON.stringify(result));
+            db.close();
+        });
+    });
+});
+
+app.post('/tensorflow/delete/:id', (req,res)=> {
+    let id = req.params.id;
+    console.log(id);
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("tensorflow");
+        var myquery = { _id: new mongodb.ObjectID(id) };
+        dbo.collection("historique").deleteOne(myquery, function(err, obj) {
+            if (err) throw err;
+            console.log("Ligne supprimée")
             db.close();
         });
     });

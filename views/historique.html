@@ -28,7 +28,7 @@
 <div class="container">
     <div class="row mt-5">
         <div class="col-12">
-            <table class="table table-bordered">
+            <table class="table ">
                 <thead class="text-center thead-dark">
                 <tr>
                     <th>Date d'ajout</th>
@@ -39,7 +39,7 @@
                     <th>Consulter l'image</th>
                 </tr>
                 </thead>
-                <tbody class="text-center bg-secondary text-light" id="data-content"></tbody>
+                <tbody class="text-center text-light" id="data-content"></tbody>
             </table>
         </div>
     </div>
@@ -56,20 +56,22 @@
                 let result = JSON.parse(data);
                 for (let i = 0; i < result.length; i++) {
                     $("#data-content").append(
-                        "<tr>" +
-                        "<td>" + result[i].date + "</td>" +
-                        "<td>" + result[i].name + "</td>" +
-                        "<td>" + result[i].size + "</td>" +
-                        "<td>" + result[i].type + "</td>" +
-                        "<td>" + result[i].rate + "</td>" +
-                        "<td>" +
-                            "<button class='btn' data-img-name='" + result[i].name + "' onclick='showImage(this)'>" +
-                                "<i style='font-size: 1.5em;' class='far fa-image'></i>" +
-                            "</button><" +
+                        "<tr data-id='" + result[i]._id + "'>" +
+                        "<td >" + result[i].date + "</td>" +
+                        "<td >" + result[i].name + "</td>" +
+                        "<td >" + result[i].size + "</td>" +
+                        "<td >" + result[i].type + "</td>" +
+                        "<td >" + result[i].rate + "</td>" +
+                        "<td >" +
+                        "<button class='btn' data-img-name='" + result[i].name + "' onclick='showImage(this)'>" +
+                        "<i style='font-size: 1.5em;' class='far fa-image'></i>" +
+                        "</button><" +
                         "/td>" +
+                        "<td class='border-0'>" +
+                        "<button onclick='deleteRow(this)' class='btn btn-outline-danger'>Supprimer</button>" +
+                        "</td>" +
                         "</tr>");
                 }
-
             }
         });
     }
@@ -78,8 +80,21 @@
         window.location.href = "/uploaded_images/" + $(elem).attr("data-img-name");
     }
 
+    function deleteRow(elem) {
+        let id = $(elem).parent().parent().attr("data-id");
+        console.log(id)
+        $.post({
+            url: '/tensorflow/delete/' + id,
+            success: () => {
+                $(".selected").remove();
+            }
+        })
+    }
+
     $(() => {
+
         getHistory();
+
     });
 </script>
 </body>

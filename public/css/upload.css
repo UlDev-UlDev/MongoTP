@@ -12,3 +12,23 @@
     flex-direction: row;
     justify-content: space-between;
 }
+table{
+    width: 100%;
+}
+tr > td:last-child{
+    visibility: hidden;
+}
+tr > td:not(:last-child){
+    background-color: #4d5764;
+}
+tr:hover > td:not(:last-child){
+    cursor: pointer;
+    background-color: darkgray;
+}
+tr:hover > td:last-child{
+    visibility: visible;
+}
+
+.selected > td:not(:last-child) {
+    background-color: darkgray;
+}
