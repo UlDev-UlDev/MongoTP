@@ -68,6 +68,7 @@ app.post('/tensorflow/delete/:id', (req,res)=> {
             if (err) throw err;
             console.log("Ligne supprimée")
             db.close();
+            res.sendStatus(200);
         });
     });
 });

@@ -86,7 +86,7 @@
         $.post({
             url: '/tensorflow/delete/' + id,
             success: () => {
-                $(".selected").remove();
+                $(elem).parent().parent().remove();
             }
         })
     }
